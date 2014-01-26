@@ -1,0 +1,68 @@
+<div class="span12 status">
+	{{status}}
+</div>
+<form ng-show="username == insertName"  class="span12" name="blogForm" novalidate>
+	<div class="span10">
+		<div class="control-group">
+			<label class="control-label" for="header">Header</label>
+			<div class="controls">
+				<input type="text" id="header" name="header" ng-model="header" ng-minlength=3 required>
+				<br/>
+				<div class="error" ng-show="blogForm.header.$dirty && blogForm.header.$invalid">
+					<small class="error" ng-show="blogForm.header.$error.required">header is required.</small>
+					<small class="error" ng-show="blogForm.header.$error.minlength">header is required to be at least 3 characters</small>
+				</div>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="description">Description</label>
+			<div class="controls">
+				<textarea id="description" name="description" ng-model="description" ng-minlength=3 rows="5" required></textarea>
+				<br/>
+				<div class="error" ng-show="blogForm.description.$dirty && blogForm.description.$invalid">
+					<small class="error" ng-show="blogForm.description.$error.required">description is required.</small>
+					<small class="error" ng-show="blogForm.description.$error.minlength">description is required to be at least 3 characters</small>
+				</div>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="url">Url</label>
+			<div class="controls">
+				<input type="text" id="url" name="url" ng-pattern="/^[-a-zA-Z0-9]+$/" ng-minlength=3 ng-model="url" ng-unique required>
+				<br/>
+				<div class="error" ng-show="blogForm.url.$dirty && (blogForm.url.$invalid || blogForm.url.$unique)">
+					<small class="error" ng-show="blogForm.url.$error.required">url is required.</small>
+					<small class="error" ng-show="blogForm.url.$error.minlength">url is required to be at least 3 characters</small>
+					<small class="error" ng-show="blogForm.url.$error.pattern">url should only contain english letters, no special charaters allowed</small>
+					<small class="error" ng-show="blogForm.url.$error.unique">url already exists</small>
+
+				</div>
+			</div>
+		</div>
+		<input type="hidden" id="id" name="id" ng-model="id">
+		<br/>
+		<div class="control-group">
+			<div class="controls">
+				<button class="btn btn-primary" id="submitBlog" ng-disabled="!blogForm.$valid" ng-click="submitBlogForm(header, description, url, id)">
+					Submit
+				</button>
+				<button class="btn btn-danger" ng-show="id" ng-click="deleteBlog(id)">
+					Delete
+				</button>
+			</div>
+		</div>
+	</div>
+</form>
+<div ng-show="username != insertName" class="span12">
+	<h3>{{header}}</h3>
+	<blockquote ng-bind-html-unsafe="descriptionToHtml">
+
+	</blockquote>
+	<p>
+		<small> <span ng-show="insertName!='' && insertName!='Unauthorized' && insertName!=undefined">Created by {{insertName}}, </span> <span ng-show="time!=''">{{convertedTime}} </span> </small>
+	</p>
+</div>
+<div class="span12">
+	<a class="back" ng-href="#/">back</a>
+</div>
+
