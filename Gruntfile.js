@@ -51,6 +51,10 @@ module.exports = function (grunt) {
       jshint: {
       	files : '<%= yeoman.app %>/scripts/{,*/}*.js',
       	tasks : 'jshint'
+      },
+      less : {
+      	files : '<%= yeoman.app %>/styles/**/*.less',
+      	tasks : 'less'
       }
     },
     express: {
@@ -318,11 +322,24 @@ module.exports = function (grunt) {
           ]
         }]
       }
+    },
+    less : {
+	  compile: {
+        files: {
+          'app/styles/main.css': ['app/styles/main.less']
+        }
+      }
     }
   });
 
   grunt.renameTask('regarde', 'watch');
 
+  grunt.registerTask('default', [
+	 'clean:server',
+	 'less',
+	 'watch'
+  ]);
+	
   grunt.registerTask('server', [
   // 'jshint',
     'clean:server',
@@ -351,6 +368,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     'jshint',
+    'less',
     'test:unit',
     'test:e2e',
     'coffee',
