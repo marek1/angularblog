@@ -1,33 +1,22 @@
+<div class="span12">
+  <h2>Blogs
+    <a class="" id="" ng-show="username!='' && username!='Unauthorized'" ng-href="/add">+add</a>
+  </h2>
+</div>
+<div class="status">
+  {{status}}
+</div>
 
-	<div class="span12">
-		<h2>My Blogs 
-		<a class="" id="" ng-show="username!='' && username!='Unauthorized'" ng-href="#/add">+add</a>
-	</h2>
-	</div>
-	<div class="status">
-		{{status}}
-	</div>
-	
-	<div class="blogs span12" ng-repeat="blog in blogs">
-					
-				
-	          	<h3 class="blog-header"><a ng-href="#/blog/{{blog.url}}">{{blog.header}}</a></h3>
-	    
-				<p class="blog-description">
-	    
-	    			{{blog.description}}
-	    		
-	    		</p>
-	          
-			
+<div class="blogs span12" ng-repeat="blog in blogs">
 
-	</div>	
-		 
-	     
-		
-		
-	    			
-	    
+
+  <h3 class="blog-header"><a ng-href="/blog/{{blog.url}}">{{blog.header}}</a></h3>
+
+  <p class="blog-description">
+
+    {{blog.description}}
+
+  </p>
+
 
 </div>
-	

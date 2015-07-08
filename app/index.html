@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="styles/bootstrap.css">
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
+    <base href="/">
   </head>
   <body ng-app="angularblog">
   	<header>{{loginStatus}}
@@ -27,8 +28,8 @@
 					Hi {{username}} <a ng-click="logout()">Logout</a>
 			</div>
 		</div>
-		
-	</header>	
+
+	</header>
 	<!--[if lt IE 7]>
       <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
     <![endif]-->
@@ -39,7 +40,7 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-	
+
     <div class="row-fluid" ng-view></div>
 
     <script src="components/angular/angular.min.js"></script>
@@ -47,11 +48,11 @@
     <!-- <script src="components/angular-cookies/angular-cookies.js"></script> -->
     <!-- <script src="components/angular-sanitize/angular-sanitize.js"></script> -->
 
-	<!-- build:js --> 
+	<!-- build:js -->
 
     <!-- router -->
     <script src="scripts/app.js"></script>
-	
+
 	<!-- factories -->
     <script src="scripts/factories/isemptyobject.js"></script>
     <script src="scripts/factories/datafactory.js"></script>
