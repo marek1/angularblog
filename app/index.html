@@ -18,7 +18,7 @@
   </head>
   <body ng-app="angularblog">
   	<header>{{loginStatus}}
-  		<div ng-controller="LoginController">
+  		<div class="r" ng-controller="LoginController">
 			<div ng-show="loginStatus=='' || loginStatus=='Unauthorized'">
 					Login
 					with <a href="/auth/github">Github</a>
@@ -40,7 +40,7 @@
 
     <!-- Add your site or application content here -->
 	
-    <div class="row-fluid" ng-view></div>
+    <div class="row-fluid" id="main-container" ng-view></div>
 
     <script src="components/angular/angular.min.js"></script>
     <!-- <script src="components/angular-resource/angular-resource.js"></script> -->

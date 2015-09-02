@@ -15,9 +15,10 @@
 	    
 				<p class="blog-description">
 	    
-	    			{{blog.description}}
+	    			<blockquote>{{ blog.description.substring(0,100) }} ...</blockquote>
 	    		
 	    		</p>
+	    		<small>{{ blog.time | date:'yyyy-MM-dd HH:mm' }}</small>
 	          
 			
 

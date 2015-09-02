@@ -1,17 +1,16 @@
 var mongo = require('mongodb');
- 
+
 var Server = mongo.Server,
     Db = mongo.Db,
     BSON = mongo.BSONPure,
     MongoClient = mongo.MongoClient;
-    
-var local=true;    
-var server = new Server('localhost', 27017, {auto_reconnect: true});
 
-/*
-var local=false;    
-var server = new Server('ds039078.mongolab.com', 39078, {auto_reconnect: true});
-*/
+//var local=true;
+//var server = new Server('localhost', 27017, {auto_reconnect: true});
+
+var local=false;
+var server = new Server('ds039078.mongolab.com', 39078, {auto_reconnect: true}, {w:0, native_parser: false});
+
 //var server = new MongoClient(new Server('mongodb://ds039078.mongolab.com', 39078, {auto_reconnect: true}));
 
 db = new Db('nodeblog', server, {fsync:true});
@@ -23,7 +22,7 @@ db.open(function(err, db) {
   	  		 */
   	        console.log("Connected to 'nodeblog' database");
          	if (!local){
-	         	db.authenticate('', '', function(err, res) {
+	         	db.authenticate('emzweb', '*********', function(err, res) {
 			          if(!err) {
 	               	 	db.collection('blogs', {safe:true}, function(err, collection) {
 							//populateDB();
@@ -44,7 +43,7 @@ db.open(function(err, db) {
 	    }
 });
 /* With mongolab (username: emzweb, pass : a*****1)
- * 
+ *
  * To connect using the shell:
  * mongo ds039078.mongolab.com:39078/nodeblog -u <dbuser> -p <dbpassword>
  * To connect using a driver via the standard URI (what's this?):
@@ -64,7 +63,7 @@ exports.findById = function(req, res) {
 	    });
 	}
 };
- 
+
 exports.findByUrl = function(req, res) {
     var url = req.params.url;
     if (url!="" && url!=null && url!=undefined){
@@ -76,7 +75,7 @@ exports.findByUrl = function(req, res) {
 	    });
 	}
 };
- 
+
 exports.findAll = function(req, res) {
     db.collection('blogs', function(err, collection) {
 		/*
@@ -89,7 +88,7 @@ exports.findAll = function(req, res) {
     	/*
     	 * return all data
     	 */
-        collection.find().sort({'_id':1}).toArray(function(err, items) {
+        collection.find().sort({'time':-1}).toArray(function(err, items) {
             res.send(items);
         });
     });
@@ -100,9 +99,9 @@ exports.addblog = function(req, res) {
     blogString=JSON.stringify(blog);
   	blogJson=JSON.parse(blogString),
   	userName = req.user.username;
-	
+
 	blogJson.username = userName;
-    
+
     console.log('Adding blog: ' + JSON.stringify(blogJson));
     db.collection('blogs', function(err, collection) {
         collection.insert(blogJson, {safe:true}, function(err, result) {
@@ -115,18 +114,18 @@ exports.addblog = function(req, res) {
         });
     });
 }
- 
+
 exports.updateblog = function(req, res) {
     var id = req.params.id;
     var blog = req.body;
     console.log('Updating blog: ' + id);
     console.log(JSON.stringify(blog));
 	/*
-	 * Need to delete _id key as MongoDB Error on trying to update 
+	 * Need to delete _id key as MongoDB Error on trying to update
 	 */
 	delete blog._id;
 	/*
-	 * Update : 
+	 * Update :
 	 */
     db.collection('blogs', function(err, collection) {
         collection.update({'_id':new BSON.ObjectID(id)}, blog, {safe:true}, function(err, result) {
@@ -140,7 +139,7 @@ exports.updateblog = function(req, res) {
         });
     });
 }
- 
+
 exports.deleteblog = function(req, res) {
     var id = req.params.id;
     console.log('Deleting blog: ' + id);
@@ -155,9 +154,9 @@ exports.deleteblog = function(req, res) {
         });
     });
 }
- 
+
 var populateDB = function() {
- 
+
     var blogs = [
     {
     	header: "Test 1",
@@ -167,13 +166,13 @@ var populateDB = function() {
     	header: "Test 2",
         description: "This is Test 2..."
     }];
- 
+
     db.collection('blogs', function(err, collection) {
         collection.insert(blogs, {safe:true}, function(err, result) {});
     });
-    
+
     console.log('populating DB');
- 
+
 };
 
 var flushDB = function (){
